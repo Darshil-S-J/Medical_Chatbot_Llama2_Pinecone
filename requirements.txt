@@ -1,0 +1,11 @@
+# Works with python 3.12.7
+pinecone-client
+langchain
+langchain-community
+langchain-huggingface
+ctransformers
+sentence-transformers
+openai
+python-dotenv
+pypdf
+torch==2.5.1+cu124 -f https://download.pytorch.org/whl/torch_stable.html # requires cuda 12.4 installation.
