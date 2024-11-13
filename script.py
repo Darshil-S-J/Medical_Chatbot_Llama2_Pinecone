@@ -21,17 +21,17 @@ OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
 
 #Initializing the Pinecone
 pc = Pinecone(api_key=PINECONE_API_KEY)
-index_name = "index-proj"
+index_name = "index-proj" # Change this as u like.
 
 if index_name not in [i.name for i in Pinecone.list_indexes(pc)]:
     pc.create_index(
     name=index_name,
-    dimension=384, # Replace with your model dimensions
+    dimension=384, # Replace with your model vector dimensions
     metric="cosine", # Replace with your model metric
     spec=ServerlessSpec(
         cloud="aws",
         region="us-east-1"
-        ) 
+        )
     )
     
 index = Pinecone.Index(pc,name=index_name)
@@ -108,17 +108,12 @@ llm=CTransformers(model="models\\llama-2-7b-chat.ggmlv3.q4_0.bin",
                           'temperature':0.8})
 # llm=ChatOpenAI(model_name="gpt-3.5-turbo")
 
-print(1)
-
 qa=RetrievalQA.from_chain_type(llm=llm,
                                chain_type="stuff",
                                retriever=docsearch.as_retriever(search_kwargs={'k': 2}),
                                return_source_documents=True,
                                chain_type_kwargs=chain_type_kwargs)
 
-#query="What are Allergies"
-
-#print("Response",qa.run(query))
 while True:
     user_input=input(f"Input Prompt:")
     if user_input=='exit':
